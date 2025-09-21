@@ -58,7 +58,7 @@ number * number
 
 What does it return? Type your answer below:
 
-**Answer:**
+**Answer: 4**
 
 ### Task 3: Install packages
 
@@ -118,7 +118,7 @@ In the space below, write the data type for the "id" column and the "seats" colu
 head(umd_courses)
 ```
 
-In the space below, write the name of the business from the first row of the "name" column. **Answer**
+In the space below, write the name of the business from the first row of the "name" column. **Answer: Directed Research**
 
 ### Task 8: Explore data with interactive dataframe
 
@@ -134,7 +134,7 @@ To do that by hand, we'd have to take each of the 79,366 individual rows (or obs
 
 ```{r}
 umd_courses |>
-  group_by(term) |>
+  group_by(term) |> 
   summarise(
     count_classes = n()
   )
@@ -142,7 +142,7 @@ umd_courses |>
 
 Describe what you think each line of this code is doing below, based on the result:
 
-**Answer**
+**Answer: Groups by term and summarize by the number of clasess**
 
 ### Task 10: Adding arrange to sort the data
 
@@ -157,7 +157,7 @@ umd_courses |>
   arrange(desc(count_classes))
 ```
 
-Compared to the previous codeblock, what has changed and how did that affect the result? **Answer**
+Compared to the previous codeblock, what has changed and how did that affect the result? **Answer:** **It changed the order based on the number of classes.**
 
 ### Task 11: Grouping by multiple columns
 
@@ -174,7 +174,7 @@ umd_courses |>
 
 Compared to the previous codeblock, how did the output change and what in the code changed it?
 
-**Answer**
+**Answer: Now the classes are also group by department.**
 
 ### Task 12: Other summary functions
 
@@ -190,7 +190,7 @@ umd_courses |>
   arrange(desc(total_seats))
 ```
 
-Compared to the previous codeblock, what has changed and how did that affect the result? **Answer**
+Compared to the previous codeblock, what has changed and how did that affect the result? **Answer:**
 
 ### Task 13: different kinds of summarizations
 
@@ -208,7 +208,7 @@ umd_courses |>
   arrange(desc(total_seats))
 ```
 
-Compared to the previous codeblock, what has changed and how did that affect the result? What do the top terms have in common? **Answer**
+Compared to the previous codeblock, what has changed and how did that affect the result? What do the top terms have in common? **Answer:**
 
 ### Task 14: more aggregations
 
@@ -223,23 +223,25 @@ umd_courses |>
     mean_seats = mean(seats),
     median_seats = median(seats),
     # add minimum seats here
+    minimum_seats = min(seats),
     # add maximum seats here
+    maximum_seats = max(seats)
   ) |>
   arrange(desc(total_seats))
 ```
 
 Compared to the previous codeblock, what has changed and how did that affect the result? How is the data sorted?
 
-**Answer**
+**Answer:**
 
 ### Task 12: Questions
 
 No code here; I want you to provide three questions that this data suggests to you. What would you like to ask it?
 
-**Answer**
+**Answer:**
 
-1.  
+1.  What are the most in-demand classes?
 
-2.  
+2.  Which professor teaches the most classes?
 
-3.  
+3.  What department has the most in-demand classes?
