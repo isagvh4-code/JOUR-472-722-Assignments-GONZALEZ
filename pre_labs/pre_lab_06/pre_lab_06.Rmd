@@ -175,7 +175,7 @@ Sometimes joins look like they should work but don't. Often this is due to the t
 
 ```{r}
 maryland_zcta <- read_csv('data/maryland_zcta.csv')
-glimpse(maryland_zcta)
+3
 ```
 
 The column we're interested in, ZCTA5N, is a <dbl> column - it's a number. We want it to be a <chr> column - text - so we can use it in joins.
