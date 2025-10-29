@@ -45,9 +45,11 @@ Then we'll join some demographic data with Baltimore City 911 calls and ask some
 
 ```{r}
 # load the Baltimore-related data
-baltimore <- read_csv('data/baltimore_911.csv') |> clean_names()
-maryland_zcta <- read_csv('data/maryland_zcta.csv') |> clean_names() 
-glimpse(maryland_zcta)
+baltimore_911 <- read_csv('data/baltimore_911.csv') |> clean_names() |>
+  mutate(zip_code) = as.character(zip_code)
+maryland_zcta <- read_csv('data/maryland_zcta.csv') |> clean_names() |>
+  mutate(zcta5n=as.chracter(zcta5n)) 
+
 ```
 
 ```{r}

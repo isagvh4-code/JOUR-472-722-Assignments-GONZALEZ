@@ -16,9 +16,9 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction 
+## Introduction
 
-In this notebook, we are reverse engineering the story, [Inside The Political Donation History Of Wealthy Sports Owners] (https://fivethirtyeight.com/features/inside-the-political-donation-history-of-wealthy-sports-owners/)
+In this notebook, we are reverse engineering the story, [Inside The Political Donation History Of Wealthy Sports Owners] (<https://fivethirtyeight.com/features/inside-the-political-donation-history-of-wealthy-sports-owners/>)
 
 ## Load libraries
 
@@ -34,27 +34,35 @@ library(janitor)
 
 ## Load and Cleaning Data
 
-In this section, describe the source of the data, write a basic data dictionary for data you are working with, and discuss any caveats or issues you discovered working with this data. 
+In this section, describe the source of the data, write a basic data dictionary for data you are working with, and discuss any caveats or issues you discovered working with this data.
 
 ```{r}
 # Load required data
 sports_political_donations <- read_csv("data/sports-political-donations.csv") |> clean_names()
+```
 
+```{r}
+sports_political_donations_cleaned <- sports_political_donations  |> 
+  mutate(
+    amount = str_replace_all(amount, "\\$|\\,", "") |> 
+            as.numeric()
+  )
 ```
 
 ## Sentences to Engineer
+
 In this notebook, we are reverse engineering five sentences from the story.
 
 ### Sentence 1
 
-* **Sentence text**: [American professional sports owners have contributed nearly $47 million in federal elections since 2015, according to research by ESPN in partnership with FiveThirtyEight]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+-   **Sentence text**: [American professional sports owners have contributed nearly \$47 million in federal elections since 2015, according to research by ESPN in partnership with FiveThirtyEight]
+-   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
-American professional sports owners have contributed nearly $47 million in federal elections since 2015, according to research by ESPN in partnership with FiveThirtyEight. 
+# American professional sports owners have contributed nearly $47 million in federal elections since 2015, according to research by ESPN in partnership with FiveThirtyEight. 
 
-sports_political_donations |> 
+sports_political_donations_cleaned |> 
   summarise(
     total_donations = sum(amount)
   )
@@ -65,8 +73,8 @@ sports_political_donations |>
 
 ### Sentence 2
 
-* **Sentence text**: [Paste in sentence to engineer here]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+-   **Sentence text**: [Paste in sentence to engineer here]
+-   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
@@ -77,8 +85,8 @@ sports_political_donations |>
 
 ### Sentence 3
 
-* **Sentence text**: [Paste in sentence to engineer here]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+-   **Sentence text**: [Paste in sentence to engineer here]
+-   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
@@ -89,8 +97,8 @@ sports_political_donations |>
 
 ### Sentence 4
 
-* **Sentence text**: [Paste in sentence to engineer here]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+-   **Sentence text**: [Paste in sentence to engineer here]
+-   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
@@ -101,8 +109,8 @@ sports_political_donations |>
 
 ### Sentence 5
 
-* **Sentence text**: [Paste in sentence to engineer here]
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+-   **Sentence text**: [Paste in sentence to engineer here]
+-   **Analysis summary**: [Write up two to three sentences describing the results of your analysis. Were you able to confirm the finding? If not, why not?]
 
 ```{r}
 # Put code to reverse engineer sentence here
