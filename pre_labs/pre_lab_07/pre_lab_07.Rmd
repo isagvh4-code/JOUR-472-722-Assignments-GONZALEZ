@@ -230,4 +230,4 @@ md_high_schools_with_acs |>
   summarize(avg_income = mean(estimate), count = n())
 ```
 
-**Task** What is another question you could ask of this data? **Answer**.
+**Task** What is another question you could ask of this data? **Answer:** Is the average college enrollment rate of high schools located in ZIP codes where the Hispanic or Latino population is the demographic majority different compared to high schools in ZIP codes where it's not?
