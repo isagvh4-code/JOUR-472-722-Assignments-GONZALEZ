@@ -153,3 +153,43 @@ head(donations_summary)
 ```
 
 -30-
+
+**Key Findings and Approach**
+
+The story's principal finding is that the majority of the donations of the owners of major U.S. sports teams favor the Republican Party.
+
+While the data analysis itself was compelling, the reporting was notably limited in scope. The journalists primarily focused on the data, choosing not to incorporate contextual elements such as interviews with specialists, testimonies or anecdotes. Despite this, their approach proved effective because the quantitative evidence was robust; the data visualizations and statistics demonstrate the owners' inclination to donate more heavily to Republicans than Democrats. The data was used as the central tool to tell the story.
+
+**Communication and Nut Graph**
+
+The reporters structured the narrative by disaggregating the total donation figure, which initially served as the story's main hook. They systematically broke down the \$47 million by election year, sports league, and recipient party, effectively supporting the core argument that owners lean Republican.
+
+However, we think that there was an opportunity for improvement in the structure of the story. Given the strength of their primary finding, the reporters could have prioritized the political leaning in the lead or nut graph of the story, stating that owners primarily donate to Republicans, rather than leading with the total amount. That figure could have then been placed in subsequent paragraphs to provide context, thus immediately focusing the reader on the most significant discovery.
+
+The communication of specific findings was executed well. The reporters enhanced accessibility by presenting the data attractively, utilizing clear graphics and charts alongside raw numbers to simplify the complex financial distribution.
+
+**Data and Limitations**
+
+The data set was compiled through a search of the Federal Election Commission (FEC) database of campaign finances. The reporters had to build the data set themselves by identifying and tracking the contributions of principal owners, controlling owners, co-owners, and commissioners across the NBA, NFL, NHL, WNBA, MLB, and NASCAR. We imagine that this required significant effort in data collection and preparation prior to analysis.
+
+The reporters transparently communicated the flaws and shortcomings of their analysis, making their work easy for readers to verify and understand. They explicitly noted that the contribution list was not "completely comprehensive" and detailed their inclusion criteria.
+
+They also acknowledged a major limitation: the presence of a "dark figure" of potential undisclosed funding. This stems from the fact that owners, who are often millionaires and billionaires, can use tactics like having spouses or relatives make contributions to obscure their political spending. This recognition is particularly pertinent since many sports franchises are family-owned. While acknowledging this "black money," it would have been valuable if the reporters had attempted to provide a rough estimate or context for how large this unaccounted-for figure might be. Furthermore, although they claimed to "confirm" each donation's source, the methodology for this confirmation was not specified.
+
+**Suggested Enhancements for the Story's Depth**
+
+To avoid the story becoming tiresome due to its reliance solely on numbers, incorporating qualitative data would have been beneficial. The narrative could have been strengthened by using:
+
+•Anecdotes and Case Studies: Including brief stories detailing a specific team owner who made a large donation to a certain candidate or party and perhaps gave them a public endorsement. This would personalize the statistics.
+
+•Expert Opinion: Interviewing political finance specialists to provide context on why team owners donate and what influence they might seek.
+
+•Ideological Context: Discussing whether team owners are generally known to be discreet about their political ideologies, which could contextualize their donation patterns.
+
+We believe that the most time-consuming part of their investigation must have been the initial search for the owners and the subsequent filtration of the donation records based on their inclusion criteria. However, the data analysis itself was likely relatively straightforward. For us, it required mostly simple coding to process the created database. Therefore, the reporters likely had sufficient time to investigate and incorporate the suggested anecdotal evidence and testimonies to enhance the story's depth.
+
+Finally, an advanced enhancement would have involved cross-referencing their donation database with public voter registration records to see if the owners had registered for a specific party's primary. This would have provided a secondary source to further substantiate the political leaning established by the donation data.
+
+**Conclusion and Overall Assessment**
+
+The FiveThirtyEight analysis provides a powerful, data-driven look at the political spending of elite sports team owners. Their methodology in building a custom database from FEC records and their transparency regarding its limitations demonstrate strong journalistic desire. However, we believe that relying solely on quantitative data misses an opportunity to create a richer, more engaging narrative. For future investigative work of this nature, combining the irrefutable evidence of data with the human element of storytelling would serve to both inform and captivate the audience more profoundly.
