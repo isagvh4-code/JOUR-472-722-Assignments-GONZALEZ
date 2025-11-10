@@ -7,13 +7,17 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+install.packages("ggrepel")
 ```
 
 ```{r}
 library(tidyverse)
 library(lubridate)
 library(janitor)
-library
+library(tidycensus)
+library(ggplot2)
+library(ggrepel)
+census_api_key("", install = TRUE)
 ```
 
 ## Load libraries and establish settings
@@ -47,7 +51,7 @@ You will need to create columns for the date, week and month based on the existi
 
 Compare the results here to those from the pre_lab_08 bar chart - are there major differences in the months with the highest and lowest figures? Describe that below.
 
-**A1.**
+**A1. December. // In PG, the months with the most overdose calls are the coldest months, whereas in Baltimore, they are the warmest months.**
 
 ```{r}
 pg_calls_permonth <-pg_calls |> group_by(month) |> summarize(total_calls = n()) |> 
@@ -75,7 +79,7 @@ pg_calls_permonth |>
 
 Describe the pattern of results; you may want to look at the data to dig into particular outliers.
 
-**A2.**
+**A2. The last week of the year is the week with less calls. The week with more calls is one between the months of June and July. Most of the weeks the range is more or less 20 calls.**
 
 ```{r}
 pg_callsperweek <-pg_calls |> group_by(week) |> summarize(total_calls = n())
@@ -112,11 +116,45 @@ To answer this question, do the following:
 6.  Add a label for each point that shows the zip code using geom_text() - see some examples of its use at <https://ggplot2.tidyverse.org/reference/geom_text.html#ref-examples>. Try to make the names as easy to read as possible by avoiding overlap.
 7.  In the answer space below, describe what you see and answer the questions posed above. In a general sense, what do you think this means? Feel free to consider the actual raw values: how would you report out the main point(s) of this chart?
 
-**A3.**
+**A3. I think that the scatterplot shows that lower the income of the zip code, more 911 overdose calls. This possibly means that the fewer economic resources there are, the more people suffer overdoses.**
 
 ```{r}
+pg_calls_zip <- pg_calls|>
+  group_by(zipcode) |>
+  summarise(total_calls = n(), .groups = 'drop')|>
+  rename(zip_code = zipcode)
+
 md_median_income_zip <- get_acs(geography='zcta', 
         variable='B19013_001',
         state= 'MD',
-        year=2019)
+        year=2019) 
+
+joined_data <- pg_calls_zip |>
+  left_join(md_median_income_zip, by = c("zip_code" = "GEOID"))
+
+ggplot(data = joined_data, aes(x = estimate, y = total_calls)) +
+  
+  geom_point(color = "darkorange", alpha = 0.8) +
+  
+  geom_smooth(method = "lm", se = FALSE, color = "blue", linetype = "dashed") +
+  
+  geom_text_repel(
+    aes(label = zip_code),  
+    size = 3,               
+    box.padding = 0.4,      
+    point.padding = 0.3,    
+    max.overlaps = Inf,     
+    segment.color = 'grey50' 
+  ) +
+  
+  labs(
+    title = "911 Calls vs. Median Household Income by Zip Code (MD)",
+    subtitle = "Source: ACS 2019 5-year Estimates and 911 Call Data",
+    x = "Median Household Income (USD)",
+    y = "Total 911 Calls",
+    caption = "Data joined by ZCTA/Zip Code"
+  ) +
+    scale_x_continuous(labels = scales::dollar) +
+  
+  theme_minimal()
 ```
