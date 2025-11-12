@@ -17,7 +17,7 @@ library(janitor)
 library(tidycensus)
 library(ggplot2)
 library(ggrepel)
-census_api_key("", install = TRUE)
+census_api_key("fa67f547995f07083d6506ed18786d76a6fd1b30", install = TRUE)
 ```
 
 ## Load libraries and establish settings
@@ -130,7 +130,7 @@ md_median_income_zip <- get_acs(geography='zcta',
         year=2019) 
 
 joined_data <- pg_calls_zip |>
-  left_join(md_median_income_zip, by = c("zip_code" = "GEOID"))
+  inner_join(md_median_income_zip, by = c("zip_code" = "GEOID"))
 
 ggplot(data = joined_data, aes(x = estimate, y = total_calls)) +
   
