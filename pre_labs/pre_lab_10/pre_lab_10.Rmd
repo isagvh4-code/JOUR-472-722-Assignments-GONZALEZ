@@ -57,7 +57,7 @@ Simlar to `readr`, the `sf` library has functions to read geographic data. In th
 
 ### Task: Load data
 
-**Task** Run the following code to load data. Describe what you see in the answer space below. What columns exist in this data? **Answer**
+**Task** Run the following code to load data. Describe what you see in the answer space below. What columns exist in this data? **Answer: There are 8 columns: Object ID, Zipcode 2, Zipcode 1, Zipname, Shape Leng, Shape Area, Existing and Geometry.**
 
 ```{r}
 md_zips <- st_read("data/md_zips/BNDY_ZIPCodes11Digit_MDP.shp")
@@ -71,7 +71,7 @@ Let's look at these zip codes We have 526 of them, according to this data.
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below: what kind of information does it contain? **Answer**
+**Task** Run the following code. Describe the output in the space below: what kind of information does it contain? **Answe: It contains the zipcodes of Maryland and their shape.**
 
 ```{r}
 View(md_zips)
@@ -81,7 +81,7 @@ But where in Maryland are these places? We can simply plot them on a longitude-l
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer, Is the map of the zipcodes in Maryland.**
 
 ```{r}
 md_zips |>
@@ -115,7 +115,7 @@ Now, let's use the counties() function from tigris to pull down a shapefile of a
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This database contains all the counties in the country.**
 
 ```{r}
 
@@ -130,7 +130,7 @@ This county shapefile has all 3233 U.S. counties. We only want the Maryland coun
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This code filters only the counties in Maryland.**
 
 ```{r}
 md_counties <- counties |>
@@ -142,7 +142,7 @@ To see what this looks like, let's plot it out with ggplot. We can pretty clearl
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This code creates the map of the counties in Maryland.**
 
 ```{r}
 md_counties |>
@@ -159,7 +159,7 @@ We're also going to change things up a bit to put the datasets we want to displa
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This maps contains both maps of zipcodes in Maryland and counties in Mayland.**
 
 ```{r}
 ggplot() +
@@ -174,7 +174,7 @@ Let's dive back into zip codes and this time bring along data on notices of inte
 
 ### Task: Run code to load the foreclosure notice data.
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This code imports data from notices of intent to foreclose in Maryland by zipcode. Cleans it, and selects only the ones that happened in March 2023.**
 
 ```{r}
 foreclosure_zip <- read_csv("data/Maryland_Notices_of_Intent_to_Foreclose_by_Zip_Code.csv") |> clean_names()
@@ -188,7 +188,7 @@ Now we can join the zip codes to the foreclosure data.
 
 ### Task: Run code to join the zip code shapes with the foreclosure notice data
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This code joins the data of foreclosures in March (using its location =zipcode) and all zipcodes in Maryland.**
 
 ```{r}
 zip_codes_with_foreclosures <- md_zips |> left_join(foreclosure_zip_march_2023, join_by(ZIPCODE1==zip))
@@ -198,7 +198,7 @@ Now we can use color to distinguish zip codes from each other. Let's use the num
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This code calculates first the center of the zip code shapes. Then generates a map with colores using the foreclosure data.**
 
 ```{r}
 county_centroids <- st_centroid(zip_codes_with_foreclosures)
@@ -219,7 +219,7 @@ First, let's load the libraries we'll need. We're also going to load tidycensus 
 
 ### Task: Load libraries
 
-**Task** Run the following code. Describe the output in the space below. Be sure to input your census api key. **Answer**
+**Task** Run the following code. Describe the output in the space below. Be sure to input your census api key. **Answer: Loads libraries.**
 
 ```{r}
 library(tidyverse)
@@ -235,7 +235,7 @@ First, we'll go out and get the county foreclosure notices and population data f
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This code restructures the original dataframe of foreclosure using date and type. And creates a new dataframe with focus on counties.**
 
 ```{r}
 md_county_notices <- read_csv("data/Maryland_Foreclosure_Data_by_County.csv") |> slice(1) |> pivot_longer(cols=-c('Date', 'Type'), names_to='county', values_to = 'notices')
@@ -250,7 +250,7 @@ Ultimately, we're going to join this county table with population with foreclosu
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: Gets data from de census by population.**
 
 ```{r}
 md_county_population <- get_acs(geography = "county",
@@ -270,7 +270,7 @@ But there's a problem. The column in our population data that has county names i
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: makes visible the two new data frames.**
 
 ```{r}
 md_county_population
@@ -284,7 +284,7 @@ Let's clean the population table. We're going to rename the "NAME" column to "co
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This code is changing the names of the colums.**
 
 ```{r}
 md_county_population <- md_county_population |>
@@ -314,7 +314,7 @@ Our final step before visualization, let's calculate the number of foreclosure n
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: this code joins the data frame of foreclosures with the one of the county with focus in population, and organize it by rate.**
 
 ```{r}
 md_pop_with_foreclosures <- md_county_population |>
@@ -331,7 +331,7 @@ Okay, now let's visualize. We're going to build a choropleth map, with the color
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: Now we can see which counties with more population have more foreclosures.**
 
 ```{r}
 
@@ -349,7 +349,7 @@ This map is okay, but the color scale makes it hard to draw fine-grained differe
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. **Answer**
+**Task** Run the following code. Describe the output in the space below. **Answer: This combines the zip code map and the foreclosure rates.**
 
 ```{r}
 ggplot() +
@@ -364,7 +364,7 @@ So let's change the color scale to a "log" scale, which will help us see those d
 
 ### Task: Run code
 
-**Task** Run the following code. Describe the output in the space below. What regional patterns do you see? **Answer**
+**Task** Run the following code. Describe the output in the space below. What regional patterns do you see? **Answer: The maps** **demostrates that there are more foreclosures in the metropolitan areas,**
 
 ```{r}
 ggplot() +
