@@ -1,0 +1,144 @@
+---
+title: "TRI Data Analysis"
+output: html_document
+date: "Dic 1"
+author: Isabella Gonzalez, William Deffaa, Rebecca Baldwin, Mehedi Marof 
+---
+
+# **Introduction:**
+
+Our team wants to answer the next questions using the Toxics Release Inventory (TRI) of the entire U.S. in 2024.
+
+1.  What industry sector and what companies specifically have released the most, and the least amount of toxins?
+
+2.  What specific chemicals are released the most, and the least? What percentage of these chemicals are United States Clean Air Act Chemicals, and what percentage are not?
+
+3.  What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals? Why are they located there?
+
+4.  Do higher toxic releases correlate with higher asthma or cancer rates near these sites?
+
+5.  Which Maryland communities are exposed to the highest levels of toxic pollution, and are Black, low-income, or immigrant neighborhoods disproportionately affected?
+
+## **Libraries:**
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen=999)
+library(tidyverse)
+library(lubridate)
+library(janitor)
+library(stringr)
+library(tigris)
+library(ggplot2)
+```
+
+## Data and cleaned data:
+
+```{r}
+tri_raw <- read_csv("data/tri.csv", show_col_types = FALSE)
+
+tri_clean <- tri_raw |>
+  rename_with(~ iconv(.x, to = "ASCII", sub = "")) |>
+  rename_with(~ gsub("^[0-9]+\\.\\s*", "", .x)) |>
+  clean_names()
+
+numeric_cols <- tri_clean |>
+  select(
+    contains("release"),
+    contains("transfer"),
+    contains("waste"),
+    contains("total"),
+    matches("^x5"),   
+    matches("^x6"),   
+    matches("^x7"),   
+    matches("^x8")    
+  ) |>
+  names()
+
+tri_clean <- tri_clean |>
+  mutate(
+    across(
+      all_of(numeric_cols),
+      ~ suppressWarnings(parse_number(as.character(.x)))
+    )
+  )
+
+str(tri_clean)
+```
+
+## **Basic Data Analysis:**
+
+The TRI dataset contains 77,295 rows and 122 columns, and represents facility-level reports. It includes detailed information on each facility’s location, industrial sector, chemical names, release amounts, transfer activities, and indicators like if a chemical is listed under the U.S. Clean Air Act.\
+
+Several columns contain missing data. TRI data are self-reported estimates rather than measured environmental concentrations, and the inventory only includes facilities that exceed reporting thresholds, so it doesn't capture all sources of pollution. The dataset also doesn't contain health outcomes or demographic variables, so to answer questions 3, 4 and 5, we have to combine the TRI dataset with other databases.
+
+The dataset would work to analyzing which chemicals, companies, and industry sectors release the most pollution, and to quantify the share of pollution transferred off-site. However, questions concerning asthma or cancer outcomes, or the racial and socioeconomic composition of affected communities, cannot be answered with TRI data alone and require merging with external health and demographic datasets, like the Census ACS data.
+
+The TRI dataset for this project is limited to the year 2024, meaning it cannot show trends over time or historical pollution patterns. The data only include facilities that meet EPA reporting thresholds and only include listed TRI chemicals.
+
+### QUESTION NO. 1: What industry sector and what companies specifically have released the most, and the least amount of toxins?
+
+#### a) Industry sector
+
+```{r}
+industry_totals <- tri_clean |>
+  group_by(industry_sector) |>
+  summarise(total_industry_release = sum(total_releases, na.rm = TRUE)) |>
+  arrange(desc(total_industry_release))
+
+head(industry_totals, 10)
+
+tail(industry_totals, 10)
+ 
+```
+
+#### b) Companies
+
+```{r}
+company_totals <- tri_clean |>
+  group_by(facility_name) |>
+  summarise(total_company_release = sum(total_releases, na.rm = TRUE)) |>
+  arrange(desc(total_company_release))
+
+head(company_totals, 10)
+
+tail(company_totals, 10)
+
+```
+
+### QUESTION NO. 2: What specific chemicals are released the most, and the least? What percentage of these chemicals are United States Clean Air Act Chemicals, and what percentage are not?
+
+#### a) Most released chemicals
+
+```{r}
+chemical_totals <- tri_clean |>
+  group_by(chemical) |>
+  summarise(total_chemical_release = sum(total_releases, na.rm = TRUE)) |>
+  arrange(desc(total_chemical_release))
+
+head(chemical_totals, 10)
+
+tail(chemical_totals, 10)
+
+```
+
+**GRAPH**
+
+```{r}
+chemical_totals |>
+  slice_max(total_chemical_release, n = 10) |>
+  ggplot(aes(x = reorder(chemical, total_chemical_release),
+             y = total_chemical_release)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Top 10 Chemicals Released (TRI 2024)",
+       x = "Chemical",
+       y = "Total Releases")
+```
+
+#### b) What percentage of these chemicals are United States Clean Air Act Chemicals, and what percentage are not?
+
+```{r}
+
+```
