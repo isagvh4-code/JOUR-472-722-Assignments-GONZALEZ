@@ -217,12 +217,12 @@ alerts |>
 
 And we already have a different, more nuanced result. We can see that "summary suspension", "unprofessional conduct" and "medical records" are among the top 2-word phrases. What about after 2023?
 
-### Task 12: Create a dataframe with the top 10 two-word phrases for 2023 -- !!
+### Task 12: Create a dataframe with the top 10 two-word phrases for 2023 
 
-**Task** Run the following code and describe the results. **Answer** 
+**Task** Run the following code and describe the results. **Answer: I believe that the bigrams aren't telling us nothing. If we observe the percentages, we can see that they are repeated very little and also the most common bigrams are always very common in medical language.**
 
 ```{r}
-alerts |>
+bigram <- alerts |>
   filter(date < '2024-01-01') |>
   unnest_tokens(bigram, text, token = "ngrams", n = 2) |>
   separate(bigram, c("word1", "word2"), sep = " ") |>
@@ -239,10 +239,10 @@ And 2024?
 
 ### Task 13: Create a dataframe with the top 10 two-word phrases for 2024
 
-**Task** Run the following code and describe the results. **Answer**
+**Task** Run the following code and describe the results. **Answer: Percentages are very small too. I thing that comparing those to years (or more) , we could know which bigrams are common and we could discard them.**
 
 ```{r}
-alerts |>
+bigrams24 <-alerts |>
   filter(date >= '2024-01-01') |>
   unnest_tokens(bigram, text, token = "ngrams", n = 2) |>
   separate(bigram, c("word1", "word2"), sep = " ") |>
@@ -265,7 +265,7 @@ Another popular use of text analysis is to measure the sentiment of a word - whe
 
 ### Task 14: Load the bing lexicon and produce sentiments for our 2021-2023 unique words
 
-**Task** Run the following code and describe the results. Do any of the sentiments seem incorrect or counter-intuitive? **Answer**
+**Task** Run the following code and describe the results. Do any of the sentiments seem incorrect or counter-intuitive? **Answer: Perhaps we should say "abort"? It doesn't have to be negative. Similarly, "abundant" is not always positive.**
 
 ```{r}
 bing <- get_sentiments("bing")
