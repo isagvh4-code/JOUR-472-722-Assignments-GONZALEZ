@@ -111,15 +111,12 @@ data("stop_words")
 
 stop_words <- stop_words |>
   add_row(word = "respondent") |> 
-  add_row(word = "board") |> 
-  add_row(word = "panel") |>
-  add_row(word = "dr") |>
-  add_row(word = "maryland") |>
-  add_row(word = 'practice') |> 
-  add_row(word = '1') |> 
-  add_row(word = '2') |>
-  add_row(word = '3') |>
-  add_row(word = '14')
+  add_row(word = "attorney") |> 
+  add_row(word = "attorneys") |>
+  add_row(word = "cient") |>
+  add_row(word = "clients") |>
+  add_row(word = 'failing') |> 
+  add_row(word = 'failed') 
 ```
 
 Then we're going to use a function we haven't used yet called an `anti_join`, which filters out any matches. So we'll `anti_join` the stop words and get a list of words that aren't stop words.
@@ -217,7 +214,7 @@ alerts |>
 
 And we already have a different, more nuanced result. We can see that "summary suspension", "unprofessional conduct" and "medical records" are among the top 2-word phrases. What about after 2023?
 
-### Task 12: Create a dataframe with the top 10 two-word phrases for 2023 
+### Task 12: Create a dataframe with the top 10 two-word phrases for 2023
 
 **Task** Run the following code and describe the results. **Answer: I believe that the bigrams aren't telling us nothing. If we observe the percentages, we can see that they are repeated very little and also the most common bigrams are always very common in medical language.**
 

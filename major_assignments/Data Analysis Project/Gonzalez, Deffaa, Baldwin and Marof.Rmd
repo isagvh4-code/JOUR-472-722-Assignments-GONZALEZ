@@ -140,5 +140,7 @@ chemical_totals |>
 #### b) What percentage of these chemicals are United States Clean Air Act Chemicals, and what percentage are not?
 
 ```{r}
+pct_cleanair <- tri_clean |> 
+  filter(clean_air_act_chemical == 1)
 
 ```
