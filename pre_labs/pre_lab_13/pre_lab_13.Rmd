@@ -24,7 +24,6 @@ First, let's load libraries. We're going to load janitor, the tidyverse and a ne
 **Task** Run the following code in the gray-colored codeblock below to load the libraries we'll use.
 
 ```{r}
-# install.packages('corrr')
 library(janitor)
 library(tidyverse)
 library(corrr)

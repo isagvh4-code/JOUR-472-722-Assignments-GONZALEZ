@@ -90,6 +90,8 @@ The TRI dataset for this project is limited to the year 2024, meaning it cannot 
 #### a) Industry sector
 
 ```{r}
+
+
 industry_totals <- tri_clean |>
   group_by(industry_sector) |>
   summarise(total_industry_release = sum(total_releases, na.rm = TRUE)) |>
@@ -114,6 +116,8 @@ head(company_totals, 10)
 tail(company_totals, 10)
 
 ```
+
+**Findings:**
 
 ### QUESTION NO. 2: What specific chemicals are released the most, and the least? What percentage of these chemicals are United States Clean Air Act Chemicals, and what percentage are not?
 
@@ -168,6 +172,8 @@ percent_non_caa_top10
 
 ```
 
+**Findings:**
+
 ### QUESTION NO. 3: What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals? Why they are released here?
 
 #### a) Percentage transferred off-site.
@@ -201,18 +207,123 @@ head(receiving_sites, 10)
 
 ```
 
-### QUESTION NO. 4: Do higher toxic releases correlate with higher asthma or cancer rates near these sites?
+### QUESTION NO. 4: How do federally owned facilities differ from privately owned facilities in the types of chemicals they report, the industries they represent, and the forms of releases they use?
+
+**Findings:** The results show that federally owned facilities make up a very small share of all TRI-reporting sites, and their industrial footprint is much narrower than that of private facilities. Among federal facilities, the most common sector is “Other,” representing 964 federal sites. Electric utilities follow with 90 federal facilities, while all other sectors appear only in small numbers—for example, 32 in fabricated metals, 10 in transportation equipment, and just 3 each in chemicals, hazardous waste, and printing. This limited range contrasts sharply with private facilities, where chemical manufacturing alone includes more than 17,600 reports, and major sectors such as fabricated metals, primary metals, petroleum refining, and transportation equipment each contain thousands of private facilities.
+
+Chemical classifications differ as well. Federal facilities report many substances in the TRI “Non-Metal” and “Elemental metals” categories, and they have a comparatively high proportion of chemicals classified as PBTs (persistent, bioaccumulative toxins), with 345 federal PBT reports—almost equal to their number of non-metal TRI reports. This is notable because PBTs represent some of the most hazardous substances in the TRI. Private facilities, by contrast, report a far broader range of chemical classifications, reflecting the diversity and scale of commercial chemical use.
+
+Release form patterns also differ clearly. Federal facilities overwhelmingly report releases in form “R” (1105 reports), with only a small number (7 reports) in form “A.” Private facilities also primarily report “R” releases, but at vastly larger scale—over 67,000 “R” reports and 8,700 “A” reports. While both groups rely on the same dominant release category, federal facilities appear to engage in fewer types of release activities overall, again reflecting their smaller and more specialized operational profile.
+
+Overall, federal TRI activity is small, sector-concentrated, and centered around a narrow set of chemical classifications and release forms, while private industry generates nearly all TRI reports and spans the full range of industrial, chemical, and waste-management categories.
 
 ```{r}
+# Separate federal vs. non-federal facilities
+federal_facilities <- tri_clean |> filter(federal_facility == "YES")
+private_facilities <- tri_clean |> filter(federal_facility == "NO")
+
+# Count by industry sector
+federal_industry <- federal_facilities |>
+  count(industry_sector, sort = TRUE)
+
+private_industry <- private_facilities |>
+  count(industry_sector, sort = TRUE)
+
+head(federal_industry, 10)
+head(private_industry, 10)
+
+# Chemical types reported by federal facilities
+federal_chemicals <- federal_facilities |>
+  count(classification, metal_category, sort = TRUE)
+
+head(federal_chemicals, 10)
+
+# Release form types used by federal facilities
+federal_forms <- federal_facilities |>
+  count(form_type, sort = TRUE)
+
+private_forms <- private_facilities |>
+  count(form_type, sort = TRUE)
+
+federal_forms
+private_forms
 
 ```
 
-### QUESTION NO. 5: Which Maryland communities are exposed to the highest levels of toxic pollution, and are Black, low-income, or immigrant neighborhoods disproportionately affected?
+### QUESTION NO. 5: How much of the total reported releases come from chemicals classified as carcinogens, PBTs, or PFAS, and which industry sectors account for most of these high-hazard releases?
 
-#### a) Top of Maryland counties exposed to chemicals.
+**Findings:**
+
+The 2024 TRI data show that high-hazard chemicals—carcinogens, PBTs, and PFAS—make up a substantial share of all toxic releases reported nationwide. Out of 3.29 billion pounds of total releases, carcinogens account for 8.3 percent (274 million pounds), while PBTs account for an even larger share: 18.8 percent, or more than 620 million pounds. Together, these two categories represent more than one-quarter of all reported toxic releases.
+
+Although PFAS releases appear extremely small by weight (0.012 percent of all TRI releases), their environmental and health risks are disproportionately high compared with their mass. TRI’s weight-based classification understates their significance because PFAS chemicals cause biological and ecological harm at tiny concentrations.
+
+Industry sectors vary dramatically in their contribution to high-hazard releases. The chemical manufacturing sector stands out overwhelmingly, reporting more than **2.28 trillion pounds** of hazardous releases—by far the largest total of any sector. Primary metals (690 billion pounds) and metal mining (389 billion pounds) follow, reflecting the heavy-chemical and metal-processing operations central to those industries. Hazardous
+
+### **a. Overall share of carcinogen, PBT, and PFAS releases**
 
 ```{r}
+hazard_totals <- tri_clean |>
+mutate(
+is_carcinogen = carcinogen == "YES",
+is_pbt        = pbt == "YES",
+is_pfas       = pfas == "YES"
+) |>
+summarise(
+total_releases_all   = sum(total_releases, na.rm = TRUE),
+total_carcinogen     = sum(if_else(is_carcinogen, total_releases, 0), na.rm = TRUE),
+total_pbt            = sum(if_else(is_pbt,        total_releases, 0), na.rm = TRUE),
+total_pfas           = sum(if_else(is_pfas,       total_releases, 0), na.rm = TRUE)
+) |>
+mutate(
+pct_carcinogen = 100 * total_carcinogen / total_releases_all,
+pct_pbt        = 100 * total_pbt        / total_releases_all,
+pct_pfas       = 100 * total_pfas       / total_releases_all
+)
+
+hazard_totals
 
 ```
 
-### 
+### **b. High-hazard releases by industry sector**
+
+```{r}
+hazard_by_sector <- tri_clean |>
+mutate(
+is_carcinogen = carcinogen == "YES",
+is_pbt        = pbt == "YES",
+is_pfas       = pfas == "YES",
+any_hazard    = is_carcinogen | is_pbt | is_pfas
+) |>
+group_by(industry_sector) |>
+summarise(
+total_releases        = sum(total_releases, na.rm = TRUE),
+hazard_releases       = sum(if_else(any_hazard, total_releases, 0), na.rm = TRUE),
+carcinogen_releases   = sum(if_else(is_carcinogen, total_releases, 0), na.rm = TRUE),
+pbt_releases          = sum(if_else(is_pbt,        total_releases, 0), na.rm = TRUE),
+pfas_releases         = sum(if_else(is_pfas,       total_releases, 0), na.rm = TRUE)
+) |>
+mutate(
+pct_hazard_in_sector = 100 * hazard_releases / total_releases
+) |>
+arrange(desc(hazard_releases))
+
+head(hazard_by_sector, 10)
+
+```
+
+### **c. Simple bar chart of sectors with most hazard releases**
+
+```{r}
+hazard_by_sector |>
+slice_max(hazard_releases, n = 10) |>
+ggplot(aes(x = reorder(industry_sector, hazard_releases),
+y = hazard_releases)) +
+geom_col() +
+coord_flip() +
+labs(
+title = "Top 10 Industry Sectors by High-Hazard Releases (TRI 2024)",
+x = "Industry sector",
+y = "Releases of carcinogens, PBTs, or PFAS (lbs)"
+)
+```
