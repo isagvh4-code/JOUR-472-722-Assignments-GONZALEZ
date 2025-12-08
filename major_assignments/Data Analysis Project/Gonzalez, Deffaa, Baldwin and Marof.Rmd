@@ -137,10 +137,43 @@ chemical_totals |>
        y = "Total Releases")
 ```
 
-#### b) What percentage of these chemicals are United States Clean Air Act Chemicals, and what percentage are not?
+#### b) Percentage in United States Clean Air Act Chemicals
 
 ```{r}
-pct_cleanair <- tri_clean |> 
-  filter(clean_air_act_chemical == 1)
+
+pct_cleanaac <-tri_clean |>
+  count(clean_air_act_chemical) |>
+  mutate(percent = n / sum(n) * 100)
+print(pct_cleanaac)
 
 ```
+
+### QUESTION NO. 3: What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals? 
+
+#### a) Percentage transferred off-site. 
+
+```{r}
+
+```
+
+#### b) Neighborhoods where chemicals are released. 
+
+```{r}
+
+```
+
+### QUESTION NO. 4: Do higher toxic releases correlate with higher asthma or cancer rates near these sites?
+
+```{r}
+
+```
+
+### QUESTION NO. 5: Which Maryland communities are exposed to the highest levels of toxic pollution, and are Black, low-income, or immigrant neighborhoods disproportionately affected?
+
+#### a) Top of Maryland counties exposed to chemicals. 
+
+```{r}
+
+```
+
+### 
