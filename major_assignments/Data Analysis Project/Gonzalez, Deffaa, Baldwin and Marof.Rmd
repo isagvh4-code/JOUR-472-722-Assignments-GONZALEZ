@@ -13,7 +13,7 @@ Our team wants to answer the next questions using the Toxics Release Inventory (
 
 2.  What specific chemicals are released the most, and the least? What percentage of these chemicals are United States Clean Air Act Chemicals, and what percentage are not?
 
-3.  What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals? Why are they located there?
+3.  What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals?
 
 4.  Do higher toxic releases correlate with higher asthma or cancer rates near these sites?
 
@@ -148,7 +148,6 @@ chemical_totals |>
 #### b) Percentage in United States Clean Air Act Chemicals
 
 ```{r}
-
 pct_cleanaac <-tri_clean |>
   count(clean_air_act_chemical) |>
   mutate(percent = n / sum(n) * 100)
@@ -156,9 +155,9 @@ print(pct_cleanaac)
 
 ```
 
-### QUESTION NO. 3: What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals? 
+### QUESTION NO. 3: What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals?
 
-#### a) Percentage transferred off-site. 
+#### a) Percentage transferred off-site.
 
 ```{r}
 pct_offsite <- tri_clean |>
@@ -177,7 +176,7 @@ print(pct_offsite)
 
 ```
 
-#### b) Counties where chemicals are released. 
+#### b) Counties where chemicals are released.
 
 ```{r}
 receiving_sites <- tri_clean |>
@@ -197,7 +196,7 @@ head(receiving_sites, 10)
 
 ### QUESTION NO. 5: Which Maryland communities are exposed to the highest levels of toxic pollution, and are Black, low-income, or immigrant neighborhoods disproportionately affected?
 
-#### a) Top of Maryland counties exposed to chemicals. 
+#### a) Top of Maryland counties exposed to chemicals.
 
 ```{r}
 
