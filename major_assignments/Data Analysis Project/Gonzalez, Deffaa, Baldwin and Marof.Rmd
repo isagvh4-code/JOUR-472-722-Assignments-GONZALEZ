@@ -145,13 +145,26 @@ chemical_totals |>
        y = "Total Releases")
 ```
 
-#### b) Percentage in United States Clean Air Act Chemicals
+#### b) Percentage Clean Air Act Chemicals
 
 ```{r}
-pct_cleanaac <-tri_clean |>
-  count(clean_air_act_chemical) |>
-  mutate(percent = n / sum(n) * 100)
-print(pct_cleanaac)
+top10_chems <- chemical_totals |>
+  slice_max(total_chemical_release, n = 10)
+
+top10_with_caa <- top10_chems |>
+  left_join(
+    tri_clean |> distinct(chemical, clean_air_act_chemical),
+    by = "chemical"
+  )
+
+num_caa_top10 <- sum(top10_with_caa$clean_air_act_chemical == 1, na.rm = TRUE)
+num_non_caa_top10 <- 10 - num_caa_top10
+
+percent_caa_top10 <- (num_caa_top10 / 10) * 100
+percent_non_caa_top10 <- 100 - percent_caa_top10
+
+percent_caa_top10
+percent_non_caa_top10
 
 ```
 
