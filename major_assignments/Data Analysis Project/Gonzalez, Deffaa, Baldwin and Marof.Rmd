@@ -25,12 +25,18 @@ Our team wants to answer the next questions using the Toxics Release Inventory (
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(echo = TRUE)
 options(scipen=999)
+
+install.packages("USAboundaries")
+
 library(tidyverse)
 library(lubridate)
 library(janitor)
 library(stringr)
 library(tigris)
 library(ggplot2)
+library(sf)
+
+
 ```
 
 ## Data and cleaned data:
@@ -52,8 +58,10 @@ numeric_cols <- tri_clean |>
     matches("^x5"),   
     matches("^x6"),   
     matches("^x7"),   
-    matches("^x8")    
-  ) |>
+    matches("^x8"),
+    -latitude,          
+    -longitude
+    ) |>
   names()
 
 tri_clean <- tri_clean |>
@@ -153,12 +161,31 @@ print(pct_cleanaac)
 #### a) Percentage transferred off-site. 
 
 ```{r}
+pct_offsite <- tri_clean |>
+  summarise(
+    total_offsite = sum(off_site_release_total, na.rm = TRUE),
+    total_onsite  = sum(on_site_release_total, na.rm = TRUE),
+    total_all     = sum(total_releases, na.rm = TRUE)
+  ) |>
+  mutate(
+    percent_offsite = 100 * total_offsite / total_all,
+    percent_onsite  = 100 * total_onsite / total_all
+  )
+
+print(pct_offsite)
+  
 
 ```
 
-#### b) Neighborhoods where chemicals are released. 
+#### b) Counties where chemicals are released. 
 
 ```{r}
+receiving_sites <- tri_clean |>
+  filter(off_site_release_total > 0) |>
+  select(facility_name, city, county, st, zip, off_site_release_total,latitude,longitude) |>
+  arrange(desc(off_site_release_total))
+
+head(receiving_sites, 10)
 
 ```
 
