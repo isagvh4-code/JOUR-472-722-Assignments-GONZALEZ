@@ -13,7 +13,7 @@ Our team wants to answer the next questions using the Toxics Release Inventory (
 
 2.  What specific chemicals are released the most, and the least? What percentage of these chemicals are United States Clean Air Act Chemicals, and what percentage are not?
 
-3.  What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals?
+3.  What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals? Why they are released here?
 
 4.  Do higher toxic releases correlate with higher asthma or cancer rates near these sites?
 
@@ -77,7 +77,7 @@ str(tri_clean)
 
 ## **Basic Data Analysis:**
 
-The TRI dataset contains 77,295 rows and 122 columns, and represents facility-level reports. It includes detailed information on each facility’s location, industrial sector, chemical names, release amounts, transfer activities, and indicators like if a chemical is listed under the U.S. Clean Air Act.\
+The TRI dataset contains 77,295 rows and 122 columns, and represents facility-level reports. It includes detailed information on each facility’s location, industrial sector, chemical names, release amounts, transfer activities, and indicators like if a chemical is listed under the U.S. Clean Air Act.
 
 Several columns contain missing data. TRI data are self-reported estimates rather than measured environmental concentrations, and the inventory only includes facilities that exceed reporting thresholds, so it doesn't capture all sources of pollution. The dataset also doesn't contain health outcomes or demographic variables, so to answer questions 3, 4 and 5, we have to combine the TRI dataset with other databases.
 
@@ -168,7 +168,7 @@ percent_non_caa_top10
 
 ```
 
-### QUESTION NO. 3: What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals?
+### QUESTION NO. 3: What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals? Why they are released here?
 
 #### a) Percentage transferred off-site.
 
