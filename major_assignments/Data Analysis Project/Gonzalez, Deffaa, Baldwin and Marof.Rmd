@@ -209,20 +209,14 @@ head(receiving_sites, 10)
 
 ### QUESTION NO. 4: How do federally owned facilities differ from privately owned facilities in the types of chemicals they report, the industries they represent, and the forms of releases they use?
 
-**Findings:** The results show that federally owned facilities make up a very small share of all TRI-reporting sites, and their industrial footprint is much narrower than that of private facilities. Among federal facilities, the most common sector is “Other,” representing 964 federal sites. Electric utilities follow with 90 federal facilities, while all other sectors appear only in small numbers—for example, 32 in fabricated metals, 10 in transportation equipment, and just 3 each in chemicals, hazardous waste, and printing. This limited range contrasts sharply with private facilities, where chemical manufacturing alone includes more than 17,600 reports, and major sectors such as fabricated metals, primary metals, petroleum refining, and transportation equipment each contain thousands of private facilities.
+**Explanation:** We filtered the TRI dataset using the "federal_facility" column, creating two separate subsets. We then counted how many facilities fall into each industry sector within each group to see how their industrial footprints differ. Next, we summarized the chemical classifications reported by federal facilities using the "classification" and "metal_category" fields. Finally, we compared release form types between federal and private sites by counting occurrences of each "form_type" value.
 
-Chemical classifications differ as well. Federal facilities report many substances in the TRI “Non-Metal” and “Elemental metals” categories, and they have a comparatively high proportion of chemicals classified as PBTs (persistent, bioaccumulative toxins), with 345 federal PBT reports—almost equal to their number of non-metal TRI reports. This is notable because PBTs represent some of the most hazardous substances in the TRI. Private facilities, by contrast, report a far broader range of chemical classifications, reflecting the diversity and scale of commercial chemical use.
-
-Release form patterns also differ clearly. Federal facilities overwhelmingly report releases in form “R” (1105 reports), with only a small number (7 reports) in form “A.” Private facilities also primarily report “R” releases, but at vastly larger scale—over 67,000 “R” reports and 8,700 “A” reports. While both groups rely on the same dominant release category, federal facilities appear to engage in fewer types of release activities overall, again reflecting their smaller and more specialized operational profile.
-
-Overall, federal TRI activity is small, sector-concentrated, and centered around a narrow set of chemical classifications and release forms, while private industry generates nearly all TRI reports and spans the full range of industrial, chemical, and waste-management categories.
+**Findings:** The results show that federally owned facilities make up only a tiny share of all sites and participate in a much narrower set of industrial sectors. The other sector alone accounts for 964 federal facilities, followed by electric utilities with 90 facilities; all other sectors contain only a handful of federal sites. Private facilities, by contrast, appear in every major industrial category, with chemical manufacturing alone totaling more than 17,600 reports.
 
 ```{r}
-# Separate federal vs. non-federal facilities
 federal_facilities <- tri_clean |> filter(federal_facility == "YES")
 private_facilities <- tri_clean |> filter(federal_facility == "NO")
 
-# Count by industry sector
 federal_industry <- federal_facilities |>
   count(industry_sector, sort = TRUE)
 
@@ -232,13 +226,11 @@ private_industry <- private_facilities |>
 head(federal_industry, 10)
 head(private_industry, 10)
 
-# Chemical types reported by federal facilities
 federal_chemicals <- federal_facilities |>
   count(classification, metal_category, sort = TRUE)
 
 head(federal_chemicals, 10)
 
-# Release form types used by federal facilities
 federal_forms <- federal_facilities |>
   count(form_type, sort = TRUE)
 
@@ -252,13 +244,9 @@ private_forms
 
 ### QUESTION NO. 5: How much of the total reported releases come from chemicals classified as carcinogens, PBTs, or PFAS, and which industry sectors account for most of these high-hazard releases?
 
-**Findings:**
+**Explanation:** We created indicator variables for each hazard category using the TRI fields "carcinogen", "pbt" and "pfas". We summed the total releases associated with each category and calculated their percentage of all releases. To understand which industries contribute most to these high-hazard categories, we grouped the data by "industry_sector" and calculated total hazardous releases per sector. Then, we ranked sectors by their high-hazard release totals and visualized the top contributors.
 
-The 2024 TRI data show that high-hazard chemicals—carcinogens, PBTs, and PFAS—make up a substantial share of all toxic releases reported nationwide. Out of 3.29 billion pounds of total releases, carcinogens account for 8.3 percent (274 million pounds), while PBTs account for an even larger share: 18.8 percent, or more than 620 million pounds. Together, these two categories represent more than one-quarter of all reported toxic releases.
-
-Although PFAS releases appear extremely small by weight (0.012 percent of all TRI releases), their environmental and health risks are disproportionately high compared with their mass. TRI’s weight-based classification understates their significance because PFAS chemicals cause biological and ecological harm at tiny concentrations.
-
-Industry sectors vary dramatically in their contribution to high-hazard releases. The chemical manufacturing sector stands out overwhelmingly, reporting more than **2.28 trillion pounds** of hazardous releases—by far the largest total of any sector. Primary metals (690 billion pounds) and metal mining (389 billion pounds) follow, reflecting the heavy-chemical and metal-processing operations central to those industries. Hazardous
+Carcinogens and PBTs together account for more than one-quarter of all releases in 2024, with carcinogens at 8.3% and PBTs at 18.8% of national totals. PFAS releases are very small by weight.
 
 ### **a. Overall share of carcinogen, PBT, and PFAS releases**
 
@@ -312,7 +300,7 @@ head(hazard_by_sector, 10)
 
 ```
 
-### **c. Simple bar chart of sectors with most hazard releases**
+### **c. Bar chart of sectors with most hazard releases**
 
 ```{r}
 hazard_by_sector |>
