@@ -2,7 +2,7 @@
 title: "TRI Data Analysis"
 output: html_document
 date: "Dic 1"
-author: Isabella Gonzalez, William Deffaa, Mehedi Marof, Rebecca Baldwin
+author: Isabella Gonzalez, William Deffaa, Mehedi Marof and Rebecca Baldwin
 ---
 
 # **Introduction:**
@@ -18,6 +18,10 @@ Our team wants to answer the next questions using the Toxics Release Inventory (
 4.  How do federally owned facilities differ from privately owned facilities in the types of chemicals they report, the industries they represent, and the forms of releases they use?
 
 5.  How much of the total reported releases come from chemicals classified as carcinogens, PBTs, or PFAS, and which industry sectors account for most of these high-hazard releases?
+
+**Link to Memo:**
+
+<https://docs.google.com/document/d/1dooCXetxK0aucjXNXK8DAd3MYiA3Cl8-66Gpwrun6nY/edit?tab=t.0>
 
 ## **Libraries:**
 
