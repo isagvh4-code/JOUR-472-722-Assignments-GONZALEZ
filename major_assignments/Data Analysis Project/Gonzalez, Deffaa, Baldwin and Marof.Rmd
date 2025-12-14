@@ -15,9 +15,9 @@ Our team wants to answer the next questions using the Toxics Release Inventory (
 
 3.  What percentage of the chemicals released in the country are transferred off-site? In which neighborhoods are the facilities located that receive these chemical transfers or disposals? Why they are released here?
 
-4.  Do higher toxic releases correlate with higher asthma or cancer rates near these sites?
+4.  How do federally owned facilities differ from privately owned facilities in the types of chemicals they report, the industries they represent, and the forms of releases they use?
 
-5.  Which Maryland communities are exposed to the highest levels of toxic pollution, and are Black, low-income, or immigrant neighborhoods disproportionately affected?
+5.  How much of the total reported releases come from chemicals classified as carcinogens, PBTs, or PFAS, and which industry sectors account for most of these high-hazard releases?
 
 ## **Libraries:**
 
